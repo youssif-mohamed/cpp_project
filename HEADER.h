@@ -79,9 +79,12 @@ int get_floor_number(string line)
   {
     return 2 - (int(line[1]) - 48);
   }
-  else
+  else if (line[0] == 'F')
   {
     return 2 + int(line[1]) - 48;
+  }
+  else {
+    return 0;
   }
 }
 
@@ -127,9 +130,9 @@ Client* line_to_request(string line)
   Client* requests = new Client[number_of_requests];
   int request_number = 0;
 
-  while (line[line_character_index != '.']) // loop till reach end of line
+  while (line[line_character_index] != '.') // loop till reach end of line
   {
-    if(line[line_character_index != ' ']) // loop till reach end of a request
+    if(line[line_character_index] != ' ') // loop till reach end of a request
     {
       request_string[request_string_character_index] = line[line_character_index];
       request_string_character_index++;
