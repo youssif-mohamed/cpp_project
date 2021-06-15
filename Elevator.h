@@ -10,8 +10,8 @@ class Elevator
 private:
     int floor;
     char dir;
-    int status; 
-    Client* clients; //array of clients existing in the elevator 
+    int status, num_of_clients; 
+    Client clients[6]; //array of clients existing in the elevator where maximum clients per elvator is 6
      
 public:
     Elevator();
@@ -24,7 +24,8 @@ public:
     int getFloor();
     char getDir();
     int getStatus();
-    void addClient(const Client&, int);
+    int getNum_of_clients();
+    void addClient(Client&);
     Client* getClients();
 };
 
@@ -34,7 +35,7 @@ Elevator::Elevator()
     floor = 2;
     dir = 'E';
     status = 1;
-    clients = new Client[1];
+    num_of_clients = 0;
 }
 void Elevator::setFloor(int f){
     floor = f;
@@ -55,26 +56,41 @@ int Elevator::getStatus(){
 char Elevator::getDir(){
     return dir;
 }
+int Elevator::getNum_of_clients(){
+    return num_of_clients;
+}
 // adds a new client object to the array of exiting clients i the elevator
-void Elevator::addClient(const Client& R, int size){
-    Client *temp = new Client[size + 1];
-    for (int i = 0; i < size; i++)
-    {
-        temp[i] = clients[i];
-    }
-    delete[] clients;
-    temp[size] = R;
-    this->clients = temp;
-    // clients = new Client[size + 1];
-    // for (int i = 0; i < (size + 1); i++)
+void Elevator::addClient(Client& R){
+
+    // Client c1();
+    // c1.setStart(R.getStart());
+    // for(int i = 0; i < 6; i++)
     // {
-    //     clients[i] = temp[i];
+    //     clients[i] = Client();
     // }
-    // delete[] temp;
+    if (num_of_clients <= 5)
+    {
+        clients[num_of_clients] = R;
+        num_of_clients++;
+    }
+    else if (num_of_clients == 5)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (clients[i].getStatus() == 2)
+            {
+                clients[i] = R;
+                break;
+            }
+        }
+        
+    }
+   
 }
 //returns the array of clients existing in the elevator
 Client* Elevator::getClients(){
     return clients;
+
 }
 
 Elevator::~Elevator()
