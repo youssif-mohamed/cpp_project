@@ -2,6 +2,8 @@
 #include<fstream>
 #include<string>
 #include"Client.h"
+bool EXIT = false;
+int number_of_elvators = 5;
 using namespace std;
 
 int count_lines(string fileName ) 
@@ -156,27 +158,75 @@ Client* line_to_request(string line)
   return requests;
 }
 
-// takes data of the location and status of elevators as dynamic 2d array 
-void graphic(int **GFX, int Columns, int Rows) {  
-  for (int i = 0; i < Columns; i++) {
-    for (int j = 0; j < Rows; j++) {
-      if (j == 0 && (i < (Columns - 3))) {
-        cout << 'F' << (Columns - (i + 3)) << ':' << '\t';   //print the number of the floor in the first column as the the number next to F is (columns -(i+3))
+// this function creats the binary array for declaring the floor and status of each elevator to pass this array to graphic function to draw them
+int** GFX_two_d(Elevator** elevator) 
+{
 
-      } else if (j == 0 && (i == (Columns - 3))) {
-        cout << "G " << ':' << '\t';                        // print G in the first column at the ground floor 
-      } else if (j == 0 && (i > (Columns - 3))) {
-        cout << 'B' << -(Columns - (i + 3)) << ':' << '\t'; // print the number of basment floors in the first column too 
+  int **GFX;
+  int columns = number_of_elvators, rows = 10;
+  ;
+  GFX = new int *[rows];
+  for (int i = 0; i < rows; i++)
+  {
+    GFX[i] = new int[columns];
+  }
+  for (int i = 0; i < rows; i++)
+  {
+    for (int j = 0; j < columns + 1; j++)
+    {
+      if (j == 0)
+      {
+        GFX[i][j] = 0;
+      }
+      else if ((rows - i - 1) == elevator[j - 1]->getFloor())
+      {
+        GFX[i][j] = elevator[j - 1]->getStatus();
+      }
+      else
+      {
+        GFX[i][j] = 0;
+      }
+    }
+  }
+  return GFX;
+}
+
+// takes data of the location and status of elevators as dynamic 2d array
+void graphic(int **GFX, int Columns, int Rows)
+{
+  for (int i = 0; i < Rows; i++)
+  {
+    for (int j = 0; j < Columns; j++)
+    {
+      if (j == 0 && (i < (Rows - 3)))
+      {
+        cout << 'F' << (Rows - (i + 3)) << ':' << '\t'; //print the number of the floor in the first column as the the number next to F is (columns -(i+3))
+      }
+      else if (j == 0 && (i == (Rows - 3)))
+      {
+        cout << "G " << ':' << '\t'; // print G in the first column at the ground floor
+      }
+      else if (j == 0 && (i > (Rows - 3)))
+      {
+        cout << 'B' << -(Rows - (i + 3)) << ':' << '\t'; // print the number of basment floors in the first column too
       }
 
-      else {
-        if (GFX[i][j] == 0) {
-          cout << "|  " << '\t';                  // print '|  ' indicating there is no elevator here
-        } else if (GFX[i][j] == 1) {
-          cout << "|__" << '\t';                 // print '|__' indacting there is a closed elevator here
-        } else if (GFX[i][j] == 2) {
-          cout << "|00" << '\t';                 // print '|00' indicating there is an opened elevator here
-        } else {
+      else
+      {
+        if (GFX[i][j] == 0)
+        {
+          cout << "|  " << '\t'; // print '|  ' indicating there is no elevator here
+        }
+        else if (GFX[i][j] == 1)
+        {
+          cout << "|_" << '\t'; // print '|_' indacting there is a closed elevator here
+        }
+        else if (GFX[i][j] == 2)
+        {
+          cout << "|00" << '\t'; // print '|00' indicating there is an opened elevator here
+        }
+        else
+        {
           cout << "   " << '\t';
         }
       }
