@@ -7,7 +7,7 @@ using namespace std;
 class Client
 {
 private:
-    int start, end,status; // if status == 0 so the client is not in the elvator elif status == 1 so in the elvator elif == 2 so arrived to destination
+    int start, end, status; // if status == 0 so the client is not in the elvator elif status == 1 so in the elvator elif == 2 so arrived to destination
     char dir;
 public:
     Client();
