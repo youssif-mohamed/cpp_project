@@ -11,6 +11,7 @@ private:
     int floor;
     char dir;
     int status;
+    int id; 
     Client* clients; //array of clients existing in the elevator 
     // set<Elevator> takes; 
 public:
@@ -19,6 +20,7 @@ public:
     void setFloor(int);
     void setDir(char);
     void setStatus(int);
+    static int num_elev;
     
     int getFloor();
     char getDir();
@@ -33,6 +35,8 @@ Elevator::Elevator()
     floor = 2;
     dir = 'E';
     status = 1;
+    num_elev ++;
+    id = num_elev;
     clients = new Client[1];
 }
 void Elevator::setFloor(int f){
